@@ -38,7 +38,8 @@ Thumbs.db
 .idea/
 *.swp
 
-# Claude local overrides + ephemeral hook state
-.claude/settings.local.json
-.claude/tmp/
-.claude/handoff/
+# Claude Code agent config and memory (local only)
+.claude/
+
+# Project wiki and docs (local only)
+docs/
