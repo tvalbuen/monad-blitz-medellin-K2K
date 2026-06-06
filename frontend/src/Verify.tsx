@@ -1,5 +1,10 @@
 import { useState } from 'react';
-import { publicClient, supplyCheck, STAGE_LABELS } from './contract';
+import { publicClient, supplyCheck, STAGE_LABELS, EXPLORER_TX_BASE } from './contract';
+
+interface TxEntry {
+  label: string;
+  hash: `0x${string}`;
+}
 
 interface Handoff {
   stage: number;
@@ -31,7 +36,7 @@ function parseDetails(raw: string): Record<string, string> | null {
   }
 }
 
-export default function Verify() {
+export default function Verify({ txLog = {} }: { txLog?: Record<string, TxEntry[]> }) {
   const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [state, setState] = useState<VerifyState>('idle');
   const [result, setResult] = useState<VerifyResult | null>(null);
@@ -122,6 +127,27 @@ export default function Verify() {
               <span className="badge badge-compromised">COMPROMETIDO</span>
               <p className="badge-sub">Cadena de frío comprometida — alerta de integridad</p>
             </div>
+          )}
+
+          {(txLog[batchId]?.length ?? 0) > 0 && (
+            <section className="tx-log-panel glass-card" style={{ marginTop: '1rem' }}>
+              <h3 className="tx-log-title">Transacciones en cadena</h3>
+              <ul className="tx-log-list">
+                {txLog[batchId].map((e, i) => (
+                  <li key={i} className="tx-log-entry">
+                    <span className="tx-log-stage">{e.label}</span>
+                    <a
+                      href={`${EXPLORER_TX_BASE}${e.hash}`}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="tx-log-hash"
+                    >
+                      {e.hash.slice(0, 10)}…{e.hash.slice(-6)} ↗
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </section>
           )}
 
           {result.exists && history.length > 0 && (

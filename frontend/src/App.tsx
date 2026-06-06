@@ -41,7 +41,7 @@ const STAGE_TO_VIEW: Record<number, View> = {
 
 function App() {
   const [view, setView] = useState<View>('produccion');
-  const [txLog, setTxLog] = useState<TxLogEntry[]>([]);
+  const [txLog, setTxLog] = useState<Record<string, TxLogEntry[]>>({});
   const [selectedBatch, setSelectedBatch] = useState('');
   const [batchStatus, setBatchStatus] = useState<BatchStatus>({ status: 'idle' });
   const [batchIds, setBatchIds] = useState<string[]>(KNOWN_BATCH_IDS);
@@ -89,7 +89,10 @@ function App() {
 
   function handleStageConfirmed(label: string) {
     return (hash: `0x${string}`) => {
-      setTxLog((prev) => [...prev, { label, hash }]);
+      setTxLog((prev) => ({
+        ...prev,
+        [selectedBatch]: [...(prev[selectedBatch] ?? []), { label, hash }],
+      }));
       setBatchIds((prev) => prev.includes(selectedBatch) ? prev : [...prev, selectedBatch]);
       if (selectedBatch.trim()) {
         fetchBatchStatus(selectedBatch);
@@ -184,14 +187,14 @@ function App() {
             onConfirmed={handleStageConfirmed('Entrega final')}
           />
         )}
-        {view === 'verify' && <Verify />}
+        {view === 'verify' && <Verify txLog={txLog} />}
       </main>
 
-      {txLog.length > 0 && (
+      {(txLog[selectedBatch]?.length ?? 0) > 0 && (
         <section className="tx-log-panel glass-card">
           <h3 className="tx-log-title">Transacciones en cadena</h3>
           <ul className="tx-log-list">
-            {txLog.map((e, i) => (
+            {txLog[selectedBatch].map((e, i) => (
               <li key={i} className="tx-log-entry">
                 <span className="tx-log-stage">{e.label}</span>
                 <a
