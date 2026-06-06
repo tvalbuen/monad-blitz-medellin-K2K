@@ -5,6 +5,7 @@ import DistribucionMundial from './stages/DistribucionMundial';
 import DistribucionLocal from './stages/DistribucionLocal';
 import EntregaFinal from './stages/EntregaFinal';
 import Verify from './Verify';
+import BatchModal from './BatchModal';
 import { EXPLORER_TX_BASE, publicClient, supplyCheck, STAGE_LABELS } from './contract';
 
 type View = 'produccion' | 'mundial' | 'local' | 'final' | 'verify';
@@ -31,7 +32,6 @@ const NAV_ITEMS: { id: View; label: string }[] = [
   { id: 'verify', label: 'Verificar' },
 ];
 
-// Stage → view mapping
 const STAGE_TO_VIEW: Record<number, View> = {
   0: 'mundial',
   1: 'local',
@@ -42,9 +42,10 @@ const STAGE_TO_VIEW: Record<number, View> = {
 function App() {
   const [view, setView] = useState<View>('produccion');
   const [txLog, setTxLog] = useState<TxLogEntry[]>([]);
-  const [selectedBatch, setSelectedBatch] = useState('LOTE-DEMO-01');
+  const [selectedBatch, setSelectedBatch] = useState('');
   const [batchStatus, setBatchStatus] = useState<BatchStatus>({ status: 'idle' });
   const [batchIds, setBatchIds] = useState<string[]>(KNOWN_BATCH_IDS);
+  const [modalOpen, setModalOpen] = useState(true);
 
   async function fetchBatchStatus(id: string) {
     setBatchStatus({ status: 'loading' });
@@ -89,17 +90,43 @@ function App() {
   function handleStageConfirmed(label: string) {
     return (hash: `0x${string}`) => {
       setTxLog((prev) => [...prev, { label, hash }]);
-      // Add the selectedBatch to known list if not already present
       setBatchIds((prev) => prev.includes(selectedBatch) ? prev : [...prev, selectedBatch]);
-      // Re-fetch batch status after tx confirms
       if (selectedBatch.trim()) {
         fetchBatchStatus(selectedBatch);
       }
     };
   }
 
+  function handleCreateNew(id: string) {
+    if (!batchIds.includes(id)) setBatchIds((prev) => [...prev, id]);
+    setSelectedBatch(id);
+    setBatchStatus({ status: 'not-registered' });
+    setView('produccion');
+    setModalOpen(false);
+  }
+
+  function handleSelectExisting(id: string) {
+    setSelectedBatch(id);
+    setModalOpen(false);
+    // fetchBatchStatus fires via useEffect on selectedBatch change
+  }
+
+  const batchStatusLabel =
+    batchStatus.status === 'loading' ? '...' :
+    batchStatus.status === 'registered' ? STAGE_LABELS[batchStatus.stage] :
+    batchStatus.status === 'not-registered' ? 'Nuevo' :
+    null;
+
   return (
     <>
+      <BatchModal
+        isOpen={modalOpen}
+        batchIds={batchIds}
+        onCreateNew={handleCreateNew}
+        onSelectExisting={handleSelectExisting}
+        onClose={() => selectedBatch && setModalOpen(false)}
+      />
+
       <header className="app-header">
         <h1>SupplyCheck</h1>
         <p>Trazabilidad farmaceutica en Monad — autenticidad en segundos, sin autoridad central</p>
@@ -117,35 +144,16 @@ function App() {
         ))}
       </nav>
 
-      <div className="batch-selector glass-card">
-        <div className="batch-selector-row">
-          <div className="field-group" style={{ flex: 1 }}>
-            <label htmlFor="global-batch-id">Batch ID</label>
-            <input
-              id="global-batch-id"
-              type="text"
-              list="batch-id-list"
-              value={selectedBatch}
-              onChange={(e) => setSelectedBatch(e.target.value)}
-              placeholder="LOTE-DEMO-01"
-            />
-            <datalist id="batch-id-list">
-              {batchIds.map((id) => <option key={id} value={id} />)}
-            </datalist>
-          </div>
-          <div className="batch-status-badge">
-            {batchStatus.status === 'idle' && <span className="batch-status-idle">—</span>}
-            {batchStatus.status === 'loading' && <span className="batch-status-loading">Consultando...</span>}
-            {batchStatus.status === 'not-registered' && <span className="batch-status-new">No registrado</span>}
-            {batchStatus.status === 'registered' && (
-              <span className="batch-status-stage">
-                {STAGE_LABELS[batchStatus.stage]}
-              </span>
-            )}
-            {batchStatus.status === 'error' && <span className="batch-status-error">Error</span>}
-          </div>
-        </div>
-      </div>
+      {view !== 'verify' && (
+        <button className="batch-chip" onClick={() => setModalOpen(true)}>
+          <span className="batch-chip-label">Lote activo:</span>
+          <span className="batch-chip-id">{selectedBatch || '—'}</span>
+          {batchStatusLabel && (
+            <span className="batch-chip-status">{batchStatusLabel}</span>
+          )}
+          <span className="batch-chip-change">Cambiar</span>
+        </button>
+      )}
 
       <main>
         {view === 'produccion' && (
