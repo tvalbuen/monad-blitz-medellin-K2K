@@ -102,7 +102,7 @@ export default function Verify() {
       {state === 'done' && result && (
         <>
           {!result.exists && (
-            <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+            <div className="verify-result">
               <span className="badge badge-not-found">NO ENCONTRADO</span>
               <p style={{ color: '#64748b', fontSize: '0.9rem' }}>
                 No existe ningun lote con ID &ldquo;{batchId}&rdquo; en el contrato.
@@ -111,14 +111,16 @@ export default function Verify() {
           )}
 
           {result.exists && result.authentic && (
-            <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+            <div className="verify-result">
               <span className="badge badge-authentic">AUTENTICO</span>
+              <p className="badge-sub">Cadena de custodia íntegra — verificado en Monad</p>
             </div>
           )}
 
           {result.exists && !result.authentic && (
-            <div style={{ textAlign: 'center', paddingTop: '1rem' }}>
+            <div className="verify-result">
               <span className="badge badge-compromised">COMPROMETIDO</span>
+              <p className="badge-sub">Cadena de frío comprometida — alerta de integridad</p>
             </div>
           )}
 
@@ -148,7 +150,7 @@ export default function Verify() {
                         {h.details}
                       </div>
                     )}
-                    <div style={{ marginTop: '0.35rem', fontSize: '0.85rem' }}>
+                    <div style={{ marginTop: '0.35rem' }}>
                       Cadena de frio:{' '}
                       {h.coldChainOk ? (
                         <span className="cold-chain-ok">OK</span>
