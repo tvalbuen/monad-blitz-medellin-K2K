@@ -1,0 +1,21 @@
+{
+  "name": "supplycheck",
+  "version": "0.1.0",
+  "private": true,
+  "description": "SupplyCheck — pharma supply-chain traceability on Monad",
+  "scripts": {
+    "compile": "hardhat compile",
+    "test": "hardhat test",
+    "deploy": "hardhat run scripts/deploy.ts --network monadTestnet"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@types/chai": "^4.3.20",
+    "@types/mocha": "^10.0.9",
+    "@types/node": "^22.9.0",
+    "dotenv": "^16.4.7",
+    "hardhat": "^2.22.18",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}

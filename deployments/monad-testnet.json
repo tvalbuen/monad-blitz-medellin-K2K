@@ -1,0 +1,12 @@
+{
+  "contract": "SupplyCheck",
+  "network": "monadTestnet",
+  "chainId": 10143,
+  "address": "0xffBf8ff9a0ff004cfe4C3be50E374a69c5A20150",
+  "deployer": "0x7a0288cDff3974CC969D2856B5272c8D334353f9",
+  "deployedAt": "2026-06-06",
+  "explorer": "https://testnet.monadscan.com/address/0xffBf8ff9a0ff004cfe4C3be50E374a69c5A20150",
+  "rpc": "https://testnet-rpc.monad.xyz",
+  "verifiedOnChain": true,
+  "note": "Verified live via register->verify->getBatchHistory round-trip after deploy."
+}
