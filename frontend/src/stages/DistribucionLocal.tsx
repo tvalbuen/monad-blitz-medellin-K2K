@@ -3,7 +3,11 @@ import { Stage } from '../contract';
 import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
-export default function DistribucionLocal() {
+interface Props {
+  onConfirmed?: (hash: `0x${string}`) => void;
+}
+
+export default function DistribucionLocal({ onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
   const [batchId, setBatchId] = useState('LOTE-DEMO-01');
@@ -15,7 +19,8 @@ export default function DistribucionLocal() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const details = JSON.stringify({ receptor, palet, autores });
-    await run('transferCustody', [batchId, Stage.LocalDistribution, details, coldChainOk]);
+    const txHash = await run('transferCustody', [batchId, Stage.LocalDistribution, details, coldChainOk]);
+    if (txHash) onConfirmed?.(txHash);
   }
 
   const pending = status === 'pending';

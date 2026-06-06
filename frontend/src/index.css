@@ -350,3 +350,48 @@ input[type="text"]::placeholder {
   font-weight: 600;
   font-size: 1rem;
 }
+
+/* Persistent TX log panel */
+.tx-log-panel {
+  margin-top: 1.5rem;
+}
+
+.tx-log-title {
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #94a3b8;
+  margin-bottom: 0.75rem;
+}
+
+.tx-log-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.tx-log-entry {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.88rem;
+}
+
+.tx-log-stage {
+  color: #818cf8;
+  font-weight: 600;
+  min-width: 7rem;
+}
+
+.tx-log-hash {
+  color: #34d399;
+  font-family: monospace;
+  text-decoration: none;
+  word-break: break-all;
+}
+
+.tx-log-hash:hover {
+  text-decoration: underline;
+}

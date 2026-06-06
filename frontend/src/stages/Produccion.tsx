@@ -2,7 +2,11 @@ import { useState } from 'react';
 import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
-export default function Produccion() {
+interface Props {
+  onConfirmed?: (hash: `0x${string}`) => void;
+}
+
+export default function Produccion({ onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
   const [batchId, setBatchId] = useState('LOTE-DEMO-01');
@@ -16,7 +20,8 @@ export default function Produccion() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const details = JSON.stringify({ proveedor, equipo, pureza, despacho });
-    await run('registerBatch', [batchId, productName, details, coldChainOk]);
+    const txHash = await run('registerBatch', [batchId, productName, details, coldChainOk]);
+    if (txHash) onConfirmed?.(txHash);
   }
 
   const pending = status === 'pending';

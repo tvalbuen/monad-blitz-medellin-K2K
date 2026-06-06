@@ -19,7 +19,7 @@ export interface UseTxResult extends TxState {
   run: (
     functionName: WriteFunctionName,
     args: ContractFunctionArgs<AbiType, 'nonpayable', WriteFunctionName>
-  ) => Promise<void>;
+  ) => Promise<`0x${string}` | null>;
 }
 
 export function useTx(): UseTxResult {
@@ -32,7 +32,7 @@ export function useTx(): UseTxResult {
   async function run(
     functionName: WriteFunctionName,
     args: ContractFunctionArgs<AbiType, 'nonpayable', WriteFunctionName>
-  ) {
+  ): Promise<`0x${string}` | null> {
     setState({ status: 'pending', hash: null, error: null });
     try {
       const hash = await walletClient.writeContract({
@@ -45,9 +45,11 @@ export function useTx(): UseTxResult {
       });
       await publicClient.waitForTransactionReceipt({ hash });
       setState({ status: 'confirmed', hash, error: null });
+      return hash;
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err);
       setState({ status: 'error', hash: null, error: message });
+      return null;
     }
   }
 

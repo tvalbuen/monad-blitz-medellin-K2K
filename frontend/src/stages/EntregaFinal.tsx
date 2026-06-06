@@ -3,7 +3,11 @@ import { Stage } from '../contract';
 import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
-export default function EntregaFinal() {
+interface Props {
+  onConfirmed?: (hash: `0x${string}`) => void;
+}
+
+export default function EntregaFinal({ onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
   const [batchId, setBatchId] = useState('LOTE-DEMO-01');
@@ -15,7 +19,8 @@ export default function EntregaFinal() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
     const details = JSON.stringify({ receptor, direccion, fecha });
-    await run('transferCustody', [batchId, Stage.FinalDelivery, details, coldChainOk]);
+    const txHash = await run('transferCustody', [batchId, Stage.FinalDelivery, details, coldChainOk]);
+    if (txHash) onConfirmed?.(txHash);
   }
 
   const pending = status === 'pending';
