@@ -32,7 +32,7 @@ function parseDetails(raw: string): Record<string, string> | null {
 }
 
 export default function Verify() {
-  const [batchId, setBatchId] = useState('');
+  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [state, setState] = useState<VerifyState>('idle');
   const [result, setResult] = useState<VerifyResult | null>(null);
   const [history, setHistory] = useState<Handoff[]>([]);

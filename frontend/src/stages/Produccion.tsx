@@ -5,12 +5,12 @@ import TxResult from '../TxResult';
 export default function Produccion() {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('');
-  const [productName, setProductName] = useState('');
-  const [proveedor, setProveedor] = useState('');
-  const [equipo, setEquipo] = useState('');
-  const [pureza, setPureza] = useState('');
-  const [despacho, setDespacho] = useState('');
+  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
+  const [productName, setProductName] = useState('Vacuna-X');
+  const [proveedor, setProveedor] = useState('Laboratorios ABC');
+  const [equipo, setEquipo] = useState('Equipo de produccion');
+  const [pureza, setPureza] = useState('99.7%');
+  const [despacho, setDespacho] = useState('Despacho #001');
   const [coldChainOk, setColdChainOk] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {

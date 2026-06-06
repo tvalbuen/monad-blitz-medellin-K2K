@@ -6,9 +6,9 @@ import TxResult from '../TxResult';
 export default function DistribucionMundial() {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('');
-  const [medioTransporte, setMedioTransporte] = useState('');
-  const [numeroGuia, setNumeroGuia] = useState('');
+  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
+  const [medioTransporte, setMedioTransporte] = useState('Vuelo AA-123');
+  const [numeroGuia, setNumeroGuia] = useState('GUIA-2024-001');
   const [coldChainOk, setColdChainOk] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {

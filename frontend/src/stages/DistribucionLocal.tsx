@@ -6,10 +6,10 @@ import TxResult from '../TxResult';
 export default function DistribucionLocal() {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('');
-  const [receptor, setReceptor] = useState('');
-  const [palet, setPalet] = useState('');
-  const [autores, setAutores] = useState('');
+  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
+  const [receptor, setReceptor] = useState('Farmacia Central');
+  const [palet, setPalet] = useState('PAL-001');
+  const [autores, setAutores] = useState('Juan / Maria');
   const [coldChainOk, setColdChainOk] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {

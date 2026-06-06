@@ -6,10 +6,10 @@ import TxResult from '../TxResult';
 export default function EntregaFinal() {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('');
-  const [receptor, setReceptor] = useState('');
-  const [direccion, setDireccion] = useState('');
-  const [fecha, setFecha] = useState('');
+  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
+  const [receptor, setReceptor] = useState('Hospital General');
+  const [direccion, setDireccion] = useState('Calle 100 #15-20');
+  const [fecha, setFecha] = useState('2026-06-06');
   const [coldChainOk, setColdChainOk] = useState(true);
 
   async function handleSubmit(e: React.FormEvent) {
