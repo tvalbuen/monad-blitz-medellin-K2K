@@ -41,3 +41,4 @@ Thumbs.db
 # Claude local overrides + ephemeral hook state
 .claude/settings.local.json
 .claude/tmp/
+.claude/handoff/
