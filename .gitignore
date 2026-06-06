@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+.pnp/
+.pnp.js
+
+# Env / secrets (testnet keys, RPC keys — never commit)
+.env
+.env.*
+!.env.example
+
+# Build output
+dist/
+build/
+out/
+artifacts/
+cache/
+typechain-types/
+coverage/
+
+# Hardhat / Ignition local state
+ignition/deployments/
+
+# Vite
+frontend/dist/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+
+# Claude local overrides
+.claude/settings.local.json
