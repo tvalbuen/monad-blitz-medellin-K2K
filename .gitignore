@@ -38,5 +38,6 @@ Thumbs.db
 .idea/
 *.swp
 
-# Claude local overrides
+# Claude local overrides + ephemeral hook state
 .claude/settings.local.json
+.claude/tmp/
