@@ -1,0 +1,16 @@
+# Claude Code
+.claude/settings.local.json
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Plan scratch files (transient — the developer overwrites each cycle and
+# deletes when done; not needed after the bundled commit, never pushed).
+.claude/handoff/*-plan.md
+
+# Obsidian per-user vault config (users open the vault themselves)
+docs/.obsidian/
+
+# Runtime state (log stamps, test-run timestamps — regenerated each session)
+.claude/tmp/
