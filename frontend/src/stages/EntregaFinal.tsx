@@ -4,13 +4,14 @@ import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
 interface Props {
+  batchId: string;
+  disabled: boolean;
   onConfirmed?: (hash: `0x${string}`) => void;
 }
 
-export default function EntregaFinal({ onConfirmed }: Props) {
+export default function EntregaFinal({ batchId, disabled, onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [receptor, setReceptor] = useState('Hospital General');
   const [direccion, setDireccion] = useState('Calle 100 #15-20');
   const [fecha, setFecha] = useState('2026-06-06');
@@ -29,18 +30,6 @@ export default function EntregaFinal({ onConfirmed }: Props) {
     <div className="glass-card">
       <form className="stage-form" onSubmit={handleSubmit}>
         <h2>Entrega final</h2>
-
-        <div className="field-group">
-          <label htmlFor="ef-batchId">Batch ID</label>
-          <input
-            id="ef-batchId"
-            type="text"
-            placeholder="LOTE-DEMO-01"
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            required
-          />
-        </div>
 
         <div className="field-group">
           <label htmlFor="ef-receptor">Receptor</label>
@@ -83,7 +72,7 @@ export default function EntregaFinal({ onConfirmed }: Props) {
           <span>Cadena de frio verificada</span>
         </label>
 
-        <button type="submit" className="btn-submit" disabled={pending}>
+        <button type="submit" className="btn-submit" disabled={pending || disabled}>
           {pending ? 'Enviando...' : 'Confirmar entrega'}
         </button>
       </form>

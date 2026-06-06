@@ -4,13 +4,14 @@ import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
 interface Props {
+  batchId: string;
+  disabled: boolean;
   onConfirmed?: (hash: `0x${string}`) => void;
 }
 
-export default function DistribucionLocal({ onConfirmed }: Props) {
+export default function DistribucionLocal({ batchId, disabled, onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [receptor, setReceptor] = useState('Farmacia Central');
   const [palet, setPalet] = useState('PAL-001');
   const [autores, setAutores] = useState('Juan / Maria');
@@ -29,18 +30,6 @@ export default function DistribucionLocal({ onConfirmed }: Props) {
     <div className="glass-card">
       <form className="stage-form" onSubmit={handleSubmit}>
         <h2>Distribucion local</h2>
-
-        <div className="field-group">
-          <label htmlFor="dl-batchId">Batch ID</label>
-          <input
-            id="dl-batchId"
-            type="text"
-            placeholder="LOTE-DEMO-01"
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            required
-          />
-        </div>
 
         <div className="field-group">
           <label htmlFor="dl-receptor">Receptor</label>
@@ -84,7 +73,7 @@ export default function DistribucionLocal({ onConfirmed }: Props) {
           <span>Cadena de frio verificada</span>
         </label>
 
-        <button type="submit" className="btn-submit" disabled={pending}>
+        <button type="submit" className="btn-submit" disabled={pending || disabled}>
           {pending ? 'Enviando...' : 'Transferir custodia'}
         </button>
       </form>

@@ -395,3 +395,28 @@ input[type="text"]::placeholder {
 .tx-log-hash:hover {
   text-decoration: underline;
 }
+
+/* Batch selector */
+.batch-selector {
+  margin-bottom: 1.5rem;
+}
+
+.batch-selector-row {
+  display: flex;
+  align-items: flex-end;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.batch-status-badge {
+  white-space: nowrap;
+  font-size: 0.85rem;
+  font-weight: 600;
+  padding-bottom: 0.45rem;
+}
+
+.batch-status-idle   { color: #475569; }
+.batch-status-loading { color: #f59e0b; }
+.batch-status-new    { color: #94a3b8; }
+.batch-status-stage  { color: #818cf8; }
+.batch-status-error  { color: #f87171; }

@@ -4,13 +4,14 @@ import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
 interface Props {
+  batchId: string;
+  disabled: boolean;
   onConfirmed?: (hash: `0x${string}`) => void;
 }
 
-export default function DistribucionMundial({ onConfirmed }: Props) {
+export default function DistribucionMundial({ batchId, disabled, onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [medioTransporte, setMedioTransporte] = useState('Vuelo AA-123');
   const [numeroGuia, setNumeroGuia] = useState('GUIA-2024-001');
   const [coldChainOk, setColdChainOk] = useState(true);
@@ -28,18 +29,6 @@ export default function DistribucionMundial({ onConfirmed }: Props) {
     <div className="glass-card">
       <form className="stage-form" onSubmit={handleSubmit}>
         <h2>Distribucion mundial</h2>
-
-        <div className="field-group">
-          <label htmlFor="dm-batchId">Batch ID</label>
-          <input
-            id="dm-batchId"
-            type="text"
-            placeholder="LOTE-DEMO-01"
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            required
-          />
-        </div>
 
         <div className="field-group">
           <label htmlFor="dm-transporte">Medio de transporte</label>
@@ -72,7 +61,7 @@ export default function DistribucionMundial({ onConfirmed }: Props) {
           <span>Cadena de frio verificada</span>
         </label>
 
-        <button type="submit" className="btn-submit" disabled={pending}>
+        <button type="submit" className="btn-submit" disabled={pending || disabled}>
           {pending ? 'Enviando...' : 'Transferir custodia'}
         </button>
       </form>

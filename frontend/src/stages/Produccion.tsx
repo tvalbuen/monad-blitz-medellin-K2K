@@ -3,13 +3,14 @@ import { useTx } from '../useTx';
 import TxResult from '../TxResult';
 
 interface Props {
+  batchId: string;
+  disabled: boolean;
   onConfirmed?: (hash: `0x${string}`) => void;
 }
 
-export default function Produccion({ onConfirmed }: Props) {
+export default function Produccion({ batchId, disabled, onConfirmed }: Props) {
   const { run, status, hash, error } = useTx();
 
-  const [batchId, setBatchId] = useState('LOTE-DEMO-01');
   const [productName, setProductName] = useState('Vacuna-X');
   const [proveedor, setProveedor] = useState('Laboratorios ABC');
   const [equipo, setEquipo] = useState('Equipo de produccion');
@@ -30,18 +31,6 @@ export default function Produccion({ onConfirmed }: Props) {
     <div className="glass-card">
       <form className="stage-form" onSubmit={handleSubmit}>
         <h2>Produccion</h2>
-
-        <div className="field-group">
-          <label htmlFor="prod-batchId">Batch ID</label>
-          <input
-            id="prod-batchId"
-            type="text"
-            placeholder="LOTE-DEMO-01"
-            value={batchId}
-            onChange={(e) => setBatchId(e.target.value)}
-            required
-          />
-        </div>
 
         <div className="field-group">
           <label htmlFor="prod-productName">Nombre del producto</label>
@@ -108,7 +97,7 @@ export default function Produccion({ onConfirmed }: Props) {
           <span>Cadena de frio verificada</span>
         </label>
 
-        <button type="submit" className="btn-submit" disabled={pending}>
+        <button type="submit" className="btn-submit" disabled={pending || disabled}>
           {pending ? 'Registrando...' : 'Registrar lote'}
         </button>
       </form>
