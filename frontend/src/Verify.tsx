@@ -172,7 +172,7 @@ export default function Verify({ txLog = {} }: { txLog?: Record<string, TxEntry[
                         ))}
                       </ul>
                     ) : (
-                      <div style={{ fontSize: '0.88rem', color: '#cbd5e1' }}>
+                      <div style={{ fontSize: '0.88rem', color: '#374151' }}>
                         {h.details}
                       </div>
                     )}
